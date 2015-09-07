@@ -17,6 +17,9 @@ function onLogin(response) {
       var welcomeBlock = document.getElementById('fb-welcome');
       welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
     });
+    FB.api('/me?photos', function(data){
+    	console.log(data);
+    });
   }
 }
 
