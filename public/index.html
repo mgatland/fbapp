@@ -32,6 +32,9 @@ FB.getLoginStatus(function(response) {
     }, {scope: 'user_friends, email'});
   }
 });
+
+  FB.getLoginStatus();
+
   };
 
   (function(d, s, id){
@@ -41,6 +44,7 @@ FB.getLoginStatus(function(response) {
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
+
 </script>
 
 	<h1>FB GAME APP</h1>
