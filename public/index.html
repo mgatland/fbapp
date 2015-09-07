@@ -17,8 +17,10 @@ function onLogin(response) {
       var welcomeBlock = document.getElementById('fb-welcome');
       welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
     });
-    FB.api('/me/picture', function(data){
-    	console.log(data);
+    FB.api('/me/picture', function(res){
+    	console.log(res);
+    	var pic = document.getElementById('profilepic');
+    	pic.src = res.data.url;
     });
   }
 }
@@ -52,5 +54,6 @@ FB.getLoginStatus(function(response) {
 
 	<h1>FB GAME APP</h1>
 	<h1 id="fb-welcome"></h1>
+	<img id="profilepic">
 </body>
 </html>
