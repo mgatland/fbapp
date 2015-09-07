@@ -51,6 +51,11 @@ app.post('/Login', function (req, res) {
   console.log(userName); //write it on the command prompt so we can see
 });
 
+//facebook requires a post, I don't know why
+app.post('/*', function(request, response) {
+  response.redirect('/');
+});
+
 //listen for connections on port 3000
 app.listen(process.env.PORT || 3000);
 console.log("I am listening...");
