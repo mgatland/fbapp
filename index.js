@@ -60,13 +60,19 @@ app.post('/*', function(request, response) {
   response.redirect('/');
 });
 
+var users = [];
+
 io.on('connection', function(socket){
-  console.log('a user connected');
+  var user = "someone" + Math.random().toString().substring(2,5);
+  console.log('new user ' + user + ' connected');
+  users.push(user);
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    console.log(user + ' disconnected');
+    var index = users.indexOf(user);
+    users.splice(index, 1);
   });
   socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+    io.emit('chat message', user + ": " + msg);
   });  
 });
 
