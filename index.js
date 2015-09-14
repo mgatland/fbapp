@@ -66,10 +66,12 @@ io.on('connection', function(socket){
   var user = "someone" + Math.random().toString().substring(2,5);
   console.log('new user ' + user + ' connected');
   users.push(user);
+  io.emit('user list', users);
   socket.on('disconnect', function(){
     console.log(user + ' disconnected');
     var index = users.indexOf(user);
     users.splice(index, 1);
+    io.emit('user list', users);
   });
   socket.on('chat message', function(msg){
     io.emit('chat message', user + ": " + msg);
