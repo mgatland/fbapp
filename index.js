@@ -1,8 +1,12 @@
 //set up
 var express = require('express')
 var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
+
 
 //If a client asks for a file,
 //look in the public folder. If it's there, give it to them.
@@ -56,6 +60,16 @@ app.post('/*', function(request, response) {
   response.redirect('/');
 });
 
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+  });  
+});
+
 //listen for connections on port 3000
-app.listen(process.env.PORT || 3000);
+http.listen(process.env.PORT || 3000);
 console.log("I am listening...");
