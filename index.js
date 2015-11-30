@@ -1,8 +1,16 @@
 //set up
+
+var fs = require('fs');
+var options = {
+  key: fs.readFileSync('test-key.pem'),
+  cert: fs.readFileSync('test-cert.pem')
+};
+
 var express = require('express')
 var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+//var http = require('http').Server(app);
+var https = require('https').Server(options, app);
+var io = require('socket.io')(https);
 
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
@@ -79,5 +87,6 @@ io.on('connection', function(socket){
 });
 
 //listen for connections on port 3000
-http.listen(process.env.PORT || 3000);
+//http.listen(process.env.PORT || 3000);
+https.listen(process.env.PORT || 3000);
 console.log("I am listening...");
