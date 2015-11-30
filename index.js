@@ -8,9 +8,13 @@ var options = {
 
 var express = require('express')
 var app = express();
-//var http = require('http').Server(app);
+var http = require('http').Server(app);
 var https = require('https').Server(options, app);
-var io = require('socket.io')(https);
+
+//hack to check if we're on Heroku
+var httpV = (process.env.PORT ? http : https)
+
+var io = require('socket.io')(httpV);
 
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
@@ -88,5 +92,5 @@ io.on('connection', function(socket){
 
 //listen for connections on port 3000
 //http.listen(process.env.PORT || 3000);
-https.listen(process.env.PORT || 3000);
+httpV.listen(process.env.PORT || 3000);
 console.log("I am listening...");
