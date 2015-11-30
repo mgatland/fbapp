@@ -39,3 +39,16 @@ now the site loads and logs in with facebook - on the test version only.
 https://apps.facebook.com/mgatlandtest/
 
 ### now the non-test version
+
+OK, I did some quick hacks so all those HTTPS changes don't happen on Heroku. (Heroku seems to do its own HTTPS stuff and we just pretend we're serving HTTP. So, now our own HTTPS code and keys and certs are only used locally.)
+
+That fixed it at 
+https://cryptic-cove-9988.herokuapp.com/
+
+So now the app works at both:
+
+'production'
+https://apps.facebook.com/mgatlandtestapp/
+
+'dev'
+https://apps.facebook.com/mgatlandtest/
