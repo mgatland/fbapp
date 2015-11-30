@@ -52,3 +52,13 @@ https://apps.facebook.com/mgatlandtestapp/
 
 'dev'
 https://apps.facebook.com/mgatlandtest/
+
+To recap, my 'production' app settings:
+
+Secure canvas URL:
+https://cryptic-cove-9988.herokuapp.com/
+
+My test app settings:
+
+Secure canvas URL:
+https://local.cryptic-cove-9988.herokuapp.com:3000/
