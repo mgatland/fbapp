@@ -6,7 +6,7 @@ https://apps.facebook.com/mgatlandtestapp
 ### Secure canvas URL:
 https://cryptic-cove-9988.herokuapp.com/
 
-### Then I added a test app that has url:
+### Then I added a test app to facebook that has url:
 https://localhost:3000
 
 ### How I generated the key and cert:
@@ -24,3 +24,18 @@ and then I could open the page in facebook: `https://apps.facebook.com/mgatlandt
 ### but socket.io wasn't working
 
 I had to change socket.io to use https now, instead of http
+
+### still not done yet
+
+In my test app, the `App Domains` are blank
+The `Secure Canvas URL` should be https://local.cryptic-cove-9988.herokuapp.com:3000/
+
+This is a fake URL that doesn't really go anywhere.
+
+Then on my own computer, I edit my HOSTS file to make that url point to localhost - just for me on this computer.
+
+now the site loads and logs in with facebook - on the test version only.
+
+https://apps.facebook.com/mgatlandtest/
+
+### now the non-test version

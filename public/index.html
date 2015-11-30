@@ -26,6 +26,7 @@
 
     // ADD ADDITIONAL FACEBOOK CODE HERE
 function onLogin(response) {
+  console.log("onLogin");
   if (response.status == 'connected') {
     FB.api('/me?fields=first_name', function(data) {
       var welcomeBlock = document.getElementById('fb-welcome');
@@ -40,6 +41,7 @@ function onLogin(response) {
 }
 
 FB.getLoginStatus(function(response) {
+  console.log("FB.getLoginStatus");
   // Check login status on load, and if the user is
   // already logged in, go directly to the welcome message.
   if (response.status == 'connected') {
@@ -53,7 +55,7 @@ FB.getLoginStatus(function(response) {
 });
 
   FB.getLoginStatus();
-
+    console.log("hi");
   };
 
   (function(d, s, id){
@@ -64,9 +66,11 @@ FB.getLoginStatus(function(response) {
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
 
+
+  console.log("frame loaded");
 </script>
 
-	<h1>FB GAME APP</h1>
+	<h1>FB GAME APP v0.04</h1>
 	<h1 id="fb-welcome"></h1>
 	<img id="profilepic">
   <ul id="messages"></ul>
