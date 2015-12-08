@@ -94,3 +94,39 @@ io.on('connection', function(socket){
 //http.listen(process.env.PORT || 3000);
 httpV.listen(process.env.PORT || 3000);
 console.log("I am listening...");
+
+//mongo test stuff:
+//mongo example: https://github.com/mongolab/mongodb-driver-examples/blob/master/nodejs/nodeSimpleExample.js
+var mongodb = require('mongodb');
+
+//from mongolab
+var uri = 'mongodb://testuser:PASSWORD@ds054288.mongolab.com:54288/girlcode';
+
+mongodb.MongoClient.connect(uri, function(err, db) {
+  if(err) throw err;
+
+  var usersCollection = db.collection('users');
+
+  usersCollection.find(function (err, cursor) {
+    console.log("List all users");
+    cursor.each(function (err, item) {
+      console.log(item);
+    });
+  });
+
+  //insert new user
+  var newUser = {}
+  newUser.name = "Matthew";
+  newUser.likes = "42";
+  usersCollection.insert(newUser);
+  if(err) throw err;
+
+  //insert new user and get their _id
+  var newUser2 = {name: "Test"};
+  usersCollection.insert(newUser2, function (err, result) {
+    console.log("insert results:");
+    console.log(result);
+    console.log("We can save this ID: " + result.insertedIds[0]);
+  });
+
+});
