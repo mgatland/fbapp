@@ -19,7 +19,6 @@ var io = require('socket.io')(httpV);
 var bodyParser = require('body-parser')
 var cookieParser = require('cookie-parser');
 
-
 //If a client asks for a file,
 //look in the public folder. If it's there, give it to them.
 app.use(express.static(__dirname + '/public'));
@@ -95,6 +94,49 @@ io.on('connection', function(socket){
 httpV.listen(process.env.PORT || 3000);
 console.log("I am listening...");
 
+
+// facebook login //
+
+//<a href="/auth/facebook">Login with Facebook</a>
+
+var passport = require('passport')
+app.use(passport.initialize());
+var FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new FacebookStrategy({
+    clientID: 'FIXME',
+    clientSecret: 'FIXME',
+    callbackURL: "/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log("Logged in!");
+    console.log(profile);
+    var user = {name: "fakeuser"};
+    done(null, user);
+    /*User.findOrCreate(..., function(err, user) {
+      if (err) { return done(err); }
+      done(null, user);
+    });*/
+  }
+));
+
+app.get('/auth/facebook', 
+  passport.authenticate('facebook', { scope: ['public_profile']}));
+
+
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
+
+/*
 //mongo test stuff:
 //mongo example: https://github.com/mongolab/mongodb-driver-examples/blob/master/nodejs/nodeSimpleExample.js
 var mongodb = require('mongodb');
@@ -129,4 +171,4 @@ mongodb.MongoClient.connect(uri, function(err, db) {
     console.log("We can save this ID: " + result.insertedIds[0]);
   });
 
-});
+});*/
