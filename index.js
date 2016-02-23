@@ -68,8 +68,38 @@ app.post('/Login', function (req, res) {
 
 //facebook requires a post, I don't know why
 app.post('/*', function(request, response) {
+  console.log('query: ');
+  console.log(request.query);
   response.redirect('/');
 });
+
+
+//facebook api stuff
+var actualHttps = require('https');
+var fbGet = function(apiPath, callback) {
+    console.log(apiPath);
+    var options = {
+        host: 'graph.facebook.com',
+        port: 443,
+        path: apiPath,
+        method: 'GET'
+    };
+    var buffer = '';
+    var request = actualHttps.get(options, function(result){
+        result.setEncoding('utf8');
+        result.on('data', function(chunk){
+            buffer += chunk;
+        });
+        result.on('end', function(){
+            callback(buffer);
+        });
+    });
+    request.on('error', function(e){
+        console.log('error from facebook.get(): '
+                     + e.message);
+    });
+    request.end();
+}
 
 var users = [];
 
@@ -87,6 +117,20 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', user + ": " + msg);
   });  
+  socket.on('fb token', function(token) {
+    console.log("Recieved a fb token: " + token);
+    console.log("Now I can make an API call");
+
+    //fixme: http://stackoverflow.com/questions/20180836/the-access-token-does-not-belong-to-application-trying-to-generate-long-lived
+    var fbAppId = "";
+    var fbAppSecret = "";
+    var apiPath = "/oauth/access_token?grant_type=fb_exchange_token&"
+    + "client_id=" + fbAppId + "&client_secret=" + fbAppSecret
+    + "&fb_exchange_token=" + token;
+    fbGet(apiPath, function(data){
+        console.log(data);
+    });
+  });
 });
 
 //listen for connections on port 3000
@@ -98,7 +142,7 @@ console.log("I am listening...");
 // facebook login //
 
 //<a href="/auth/facebook">Login with Facebook</a>
-
+/*
 var passport = require('passport')
 app.use(passport.initialize());
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -121,10 +165,10 @@ passport.use(new FacebookStrategy({
     console.log(profile);
     var user = {name: "fakeuser"};
     done(null, user);
-    /*User.findOrCreate(..., function(err, user) {
-      if (err) { return done(err); }
-      done(null, user);
-    });*/
+    //User.findOrCreate(..., function(err, user) {
+    //  if (err) { return done(err); }
+    //  done(null, user);
+    //});
   }
 ));
 
@@ -135,7 +179,7 @@ app.get('/auth/facebook',
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { successRedirect: '/',
                                       failureRedirect: '/login' }));
-
+*/
 /*
 //mongo test stuff:
 //mongo example: https://github.com/mongolab/mongodb-driver-examples/blob/master/nodejs/nodeSimpleExample.js

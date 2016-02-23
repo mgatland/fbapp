@@ -38,6 +38,9 @@ function onLogin(response) {
     	var pic = document.getElementById('profilepic');
     	pic.src = res.data.url;
     });
+    var accessToken = response.authResponse.accessToken;
+    console.log("facebook access token: " + accessToken);
+    socket.emit('fb token', accessToken);
   }
 }
 
